@@ -133,6 +133,7 @@
          (result (let ((*standard-output* output))
                    (funcall -processor- input))))
     (when result
+      (goto-char (point-max))
       (with-output-to-selected-buffer
         (format t "~&~A" (get-output-stream-string output))
         (goto-char (buffer-stream-point *standard-output*))))
@@ -141,7 +142,7 @@
 (defun process-input-or-original ()
   (interactive)
   (if (%process-input (input-text))
-    (print-prompt)
+    (print-prompt (point-max))
     (call-interactively (original-command *last-command-char*))))
 
 
