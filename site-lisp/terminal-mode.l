@@ -156,6 +156,9 @@
     (or (find-if-not #'keymapp bound)
         (find-if #'identity bound))))
 
+(defun call-original-command-interactively ()
+  (call-interactively (original-command *last-command-char*)))
+
 (defun %process-input (input)
   (let* ((output (make-string-output-stream))
          (result (let ((*standard-output* output))
@@ -174,7 +177,7 @@
       (progn
         (print-prompt (point-max))
         (history-update input))
-      (call-interactively (original-command *last-command-char*)))))
+      (call-original-command-interactively))))
 
 
 
@@ -249,13 +252,13 @@
 (defun original-or-history-previous-input (&optional (arg 1))
   "元のコマンドを実行します。元のコマンドが実行できなかった場合は入力れ力の一つ前を選択します。"
   (interactive)
-  (or (call-interactively (original-command *last-command-char*))
+  (or (call-original-command-interactively)
       (history-previosu-input arg)))
 
 (defun original-or-history-next-input (&optional (arg 1))
   "元のコマンドを実行します。元のコマンドが実行できなかった場合は入力れ力の一つ後を選択します。"
   (interactive)
-  (or (call-interactively (original-command *last-command-char*))
+  (or (call-original-command-interactively)
       (history-next-input arg)))
 
 
