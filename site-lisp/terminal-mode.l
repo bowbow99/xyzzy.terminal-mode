@@ -263,6 +263,21 @@
 
 
 
+;;;; Misc. Commands
+
+(defun clear-terminal ()
+  "バッファの内容を全て削除します。"
+  (interactive "*")
+  (erase-buffer (selected-buffer))
+  (print-prompt))
+
+(defun kill-input ()
+  "入力されている内容を kill します。"
+  (interactive "*")
+  (multiple-value-call #'kill-region (input-area)))
+
+
+
 ;;;; Debugging
 
 (defmacro debug (&rest forms)
@@ -300,6 +315,8 @@
     (define-key kmap #\RET 'process-input-or-original)
     (define-key kmap #\C-p 'original-or-history-previous-input)
     (define-key kmap #\C-n 'original-or-history-next-input)
+    (define-key kmap #\C-l 'clear-terminal)
+    (define-key kmap #\C-w 'kill-input)
     (define-key kmap #\C-t 'test)
     (setf *terminal-mode-keymap* kmap)))
 
