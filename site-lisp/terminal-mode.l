@@ -36,6 +36,24 @@
 (defvar-local -prompt- ">>> "
   "プロンプト文字列、もしくは文字列を返す関数。")
 
+
+
+
+;;;; Utilities
+
+(si:*fset '%slot-value #'si:*slot-value)
+(defsetf %slot-value si:*set-slot-value)
+
+(defmacro with-struct ((structure &rest slot-bindings) object &body body)
+  `(let ((,structure ,object))
+     (symbol-macrolet
+         (,@(mapcar (lambda (slot)
+                      `(,slot (%slot-value ,structure ,(intern (string slot) :keyword))))
+                    slot-bindings))
+       ,@body)))
+
+
+
 
 ;;;; Prompt and Input Area
 
