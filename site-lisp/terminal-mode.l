@@ -65,12 +65,18 @@
           (funcall prompt)
         (error (e) ">>> ")))))
 
+(defvar *before-print-prompt-hook* nil)
+
+(defvar *after-print-prompt-hook* nil)
+
 (defun print-prompt (&optional (point (point)) &key (move t))
+  (run-hooks '*before-print-prompt-hook*)
   (with-output-to-buffer ((selected-buffer) point)
     (format t "~&~A" (prompt-string))
     (let ((start (point))
           (end   (buffer-stream-point *standard-output*)))
       (apply #'set-text-attribute start end 'prompt -prompt-text-attribute-)
+      (run-hooks '*after-print-prompt-hook*)
       (when move
         (goto-char end)))))
 
