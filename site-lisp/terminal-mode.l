@@ -37,7 +37,6 @@
   "プロンプト文字列、もしくは文字列を返す関数。")
 
 
-
 
 ;;;; Utilities
 
@@ -51,7 +50,6 @@
                       `(,slot (%slot-value ,structure ,(intern (string slot) :keyword))))
                     slot-bindings))
        ,@body)))
-
 
 
 
@@ -98,6 +96,7 @@
   (save-restriction
     (widen)
     (multiple-value-call #'buffer-substring (input-area))))
+
 
 
 ;;;; Narrow to Input Area
@@ -175,6 +174,7 @@
         (history-update input))
       (call-interactively (original-command *last-command-char*)))))
 
+
 
 ;;;; History
 
@@ -234,9 +234,6 @@
       (replace-input-with (history-nth-input new-index))
       (setf index new-index))))
 
-
-
-
 (defun history-previous-input (&optional (arg 1))
   (interactive)
   (history-cycle-to arg))
@@ -284,10 +281,6 @@
   (debug "Test" -input-history-))
 
 
-
-
-
-
 
 ;;;; Keymap
 
@@ -300,7 +293,6 @@
     (define-key kmap #\C-n 'original-or-history-next-input)
     (define-key kmap #\C-t 'test)
     (setf *terminal-mode-keymap* kmap)))
-
 
 
 
@@ -344,11 +336,6 @@
   #+nil
   (when(yes-or-no-p "Switch to *Term Test* buffer?")
     (set-buffer buf)))
-
-
-
-
-
 
 
 (provide "terminal-mode")
