@@ -245,7 +245,15 @@
   (interactive)
   (history-cycle-to (* -1 arg)))
 
+(defun original-or-history-previous-input (&optional (arg 1))
+  (interactive)
+  (or (call-interactively (original-command *last-command-char*))
+      (history-previosu-input arg)))
 
+(defun original-or-history-next-input (&optional (arg 1))
+  (interactive)
+  (or (call-interactively (original-command *last-command-char*))
+      (history-next-input arg)))
 
 
 
@@ -288,8 +296,8 @@
 (unless *terminal-mode-keymap*
   (let ((kmap (make-sparse-keymap)))
     (define-key kmap #\RET 'process-input-or-original)
-    (define-key kmap #\C-p 'history-previous-input)
-    (define-key kmap #\C-n 'history-next-input)
+    (define-key kmap #\C-p 'original-or-history-previous-input)
+    (define-key kmap #\C-n 'original-or-history-next-input)
     (define-key kmap #\C-t 'test)
     (setf *terminal-mode-keymap* kmap)))
 
