@@ -134,7 +134,8 @@
 
 ;; *post-command-hook*
 (defun widen-from-input-area ()
-  (when *narrowed-input-area*
+  (when (and *narrowed-input-area*
+             (not (deleted-buffer-p (car *narrowed-input-area*))))
     (%widen-from-input-area (first *narrowed-input-area*))))
 (add-hook '*post-command-hook* 'widen-from-input-area)
 
