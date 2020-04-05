@@ -81,10 +81,12 @@
         (goto-char end)))))
 
 (defun find-last-prompt ()
-  (save-excursion
-    (multiple-value-bind (start end tag)
-        (find-text-attribute 'prompt :from-end t)
-      (values start end))))
+  (save-restriction
+    (save-excursion
+      (widen)
+      (multiple-value-bind (start end tag)
+          (find-text-attribute 'prompt :from-end t)
+        (values start end)))))
 
 (defun input-area ()
   (multiple-value-bind (start end)
