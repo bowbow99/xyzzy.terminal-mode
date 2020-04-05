@@ -87,12 +87,14 @@
         (values start end)))))
 
 (defun input-area ()
+  "入力エリアの開始位置と終了位置を多値で返します。"
   (multiple-value-bind (start end)
       (find-last-prompt)
     (values end
             (point-max))))
 
 (defun input-text ()
+  "入力されている文字列を返します。"
   (save-restriction
     (widen)
     (multiple-value-call #'buffer-substring (input-area))))
@@ -235,19 +237,23 @@
       (setf index new-index))))
 
 (defun history-previous-input (&optional (arg 1))
+  "入力履歴のひとつ前を選択します。"
   (interactive)
   (history-cycle-to arg))
 
 (defun history-next-input (&optional (arg 1))
+  "入力履歴のひとつ後を選択します"
   (interactive)
   (history-cycle-to (* -1 arg)))
 
 (defun original-or-history-previous-input (&optional (arg 1))
+  "元のコマンドを実行します。元のコマンドが実行できなかった場合は入力れ力の一つ前を選択します。"
   (interactive)
   (or (call-interactively (original-command *last-command-char*))
       (history-previosu-input arg)))
 
 (defun original-or-history-next-input (&optional (arg 1))
+  "元のコマンドを実行します。元のコマンドが実行できなかった場合は入力れ力の一つ後を選択します。"
   (interactive)
   (or (call-interactively (original-command *last-command-char*))
       (history-next-input arg)))
