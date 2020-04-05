@@ -314,6 +314,7 @@
 (defun terminal-mode-start ()
   (set-minor-mode-map *terminal-mode-keymap*)
   (erase-buffer (selected-buffer))
+  (new-history)
   (print-prompt))
 
 (defun terminal-mode-exit ()
