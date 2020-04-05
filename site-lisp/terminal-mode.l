@@ -321,5 +321,27 @@
   (unset-minor-mode-map *terminal-mode-keymap*))
 
 
+
+
+(let ((buf (find-buffer "*Term Test*")))
+  (unless buf
+    (setf buf (create-new-buffer "*Term Test*"))
+    (setup-temp-buffer buf))
+  (save-excursion
+    (with-set-buffer
+      (erase-buffer buf)
+      (set-buffer buf)
+      (lisp-mode)
+      (terminal-mode t)))
+  #+nil
+  (when(yes-or-no-p "Switch to *Term Test* buffer?")
+    (set-buffer buf)))
+
+
+
+
+
+
+
 (provide "terminal-mode")
 ;;; terminal-mode.l ends here.
