@@ -308,17 +308,19 @@
 
 ;;;; Keymap
 
-(defparameter *terminal-mode-keymap* nil)
+(defvar *terminal-mode-keymap* nil)
 
-(unless *terminal-mode-keymap*
-  (let ((kmap (make-sparse-keymap)))
-    (define-key kmap #\RET 'process-input-or-original)
-    (define-key kmap #\C-p 'original-or-history-previous-input)
-    (define-key kmap #\C-n 'original-or-history-next-input)
-    (define-key kmap #\C-l 'clear-terminal)
-    (define-key kmap #\C-w 'kill-input)
-    (define-key kmap #\C-t 'test)
-    (setf *terminal-mode-keymap* kmap)))
+(progn
+  (unless *terminal-mode-keymap*
+    (setf *terminal-mode-keymap* (make-sparse-keymap)))
+  (macrolet ((bind (key command)
+               `(define-key *terminal-mode-keymap* ,key ',command)))
+    (bind #\RET process-input-or-original)
+    (bind #\C-p original-or-history-previous-input)
+    (bind #\C-n original-or-history-next-input)
+    (bind #\C-l clear-terminal)
+    (bind #\C-w kill-input)
+    (bind #\C-t test)))
 
 
 
