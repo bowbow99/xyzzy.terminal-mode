@@ -390,6 +390,25 @@
             -prompt-    'lisp-repl-prompt)
       (terminal-mode))))
 
+#| TODOs:
+
+- history search
+- scroll mode
+  - like GNU screen's copy mode
+  - make buffer read-only
+  - let cursor go anywhere
+  - dedicated keymap
+- process-input on Enter
+  - configurable input-complete-p function
+  - process only if cursor at end of input area
+- sometimes temporary narrowing exposed
+  - going into mini-buffer (interactive)
+  - completing with ac-mode
+- More misc. commands
+  - repeat C-a to go to beginning of input area
+  - repeat C-e to go to end of input area
+
+|#
 
 
 (provide "terminal-mode")
