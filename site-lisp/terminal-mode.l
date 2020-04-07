@@ -145,14 +145,14 @@
 ;;;; Enter: Process Input
 
 (defun original-command (key)
-  (let ((bound (mapcar #'(lambda (x)
-                           (when (and (keymapp x)
-                                      (not (eql x *terminal-mode-keymap*)))
-                             (lookup-keymap x key)))
-                       (append (list (current-selection-keymap))
-                               (minor-mode-map)
-                               (list (local-keymap))
-                               (list *global-keymap*)))))
+  (let* ((above (cdr (member *terminal-mode-keymap*
+                             (append (list (current-selection-keymap))
+                                     (minor-mode-map)
+                                     (list (local-keymap))
+                                     (list *global-keymap*)))))
+         (bound (mapcar (lambda (x)
+                          (lookup-keymap x key))
+                        above)))
     (or (find-if-not #'keymapp bound)
         (find-if #'identity bound))))
 
