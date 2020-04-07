@@ -370,7 +370,7 @@
 ;;;; Demo: Lisp REPL
 
 (defun lisp-repl-read-eval-print (input)
-  (format t "=> ~S" (eval (read-from-string input)))
+  (format t "~&=> ~S" (eval (read-from-string input)))
   t)
 
 (defun lisp-repl-prompt ()
