@@ -387,32 +387,9 @@
       (lisp-mode)
       (terminal-mode t)))
   #+nil
-  (when(yes-or-no-p "Switch to *Term Test* buffer?")
+  (when (yes-or-no-p "Switch to *Term Test* buffer?")
     (set-buffer buf)))
 
-
-;;;; Demo: Lisp REPL
-
-(defun lisp-repl-read-eval-print (input)
-  (format t "~&=> ~S" (eval (read-from-string input)))
-  t)
-
-(defun lisp-repl-prompt ()
-  (format nil "~A> " (package-name *package*)))
-
-(defun lisp-repl ()
-  (interactive)
-  (let* ((buffer (find-buffer "*Lisp REPL*"))
-         (init   (not buffer)))
-    (when init
-      (setf buffer (create-new-buffer "*Lisp REPL*"))
-      (setup-temp-buffer buffer))
-    (switch-to-buffer buffer)
-    (when init
-      (lisp-mode)
-      (setf -processor- 'lisp-repl-read-eval-print
-            -prompt-    'lisp-repl-prompt)
-      (terminal-mode))))
 
 #| TODOs:
 
