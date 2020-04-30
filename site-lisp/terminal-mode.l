@@ -2,7 +2,31 @@
 ;;;
 ;;; terminal-mode.l --- Minor-mode for Terminal-like buffer.
 
+;;; Author:   bowbow99 <bowbow99@gmail.com>
+;;; Version:  0.0.0
+;;; Category: Utilities Library
+;;; Depends:  ansify
+;;; License:  MIT (see COPYING.mit)
+
+;;; ChangeLog:
+;; 2020-04-09 bowbow99 <bowbow99@gmail.com>
+;; 	* 作ってみた
+
 ;;; Commentary:
+;; バッファ上でターミナルのように
+;; 
+;; - プロンプトを表示し
+;; - ユーザから入力を受け付け
+;; - 入力を処理し
+;; - 結果を出力する
+;; - の繰り返し
+;; 
+;; を実現するためのマイナーモードです。
+
+;; このマイナーモード自体は特に役に立ちません。コマンドプロンプトや
+;; REPLのようなものを実装する際にこのマイナーモードを利用すると、
+;; ユーザの入力を処理する部分（といくらかのコマンド）だけを実装する
+;; ことでそれっぽく動かせる。というものです。
 
 ;;; Code:
 
