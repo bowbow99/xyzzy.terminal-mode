@@ -36,6 +36,9 @@
 (defvar-local -prompt- ">>> "
   "プロンプト文字列、もしくは文字列を返す関数。")
 
+(defvar-local -input-complete-p-function- nil
+  "入力が完了しているかどうかを判断する関数。")
+
 
 
 ;;;; Utilities
@@ -181,12 +184,10 @@
 
 (defun process-input-or-original ()
   (interactive)
-  (let ((input (input-text)))
-    (if (%process-input input)
-      (progn
-        (print-prompt (point-max))
-        (history-update input))
-      (call-original-command-interactively))))
+  (if (or (null -input-complete-p-function-)
+          (funcall -input-complete-p-function-))
+    (process-input)
+    (call-original-command-interactively)))
 
 
 
