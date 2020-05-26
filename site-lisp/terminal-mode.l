@@ -170,6 +170,15 @@
         (goto-char (buffer-stream-point *standard-output*))))
     result))
 
+(defun process-input ()
+  (interactive)
+  (let* ((input (input-text))
+         (result (%process-input input)))
+    (when result
+      (print-prompt (point-max))
+      (history-update input))
+    result))
+
 (defun process-input-or-original ()
   (interactive)
   (let ((input (input-text)))
@@ -316,6 +325,7 @@
   (macrolet ((bind (key command)
                `(define-key *terminal-mode-keymap* ,key ',command)))
     (bind #\RET process-input-or-original)
+    (bind #\LFD process-input)
     (bind #\C-p original-or-history-previous-input)
     (bind #\C-n original-or-history-next-input)
     (bind #\C-l clear-terminal)
