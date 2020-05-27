@@ -60,6 +60,9 @@
 (defvar-local -prompt- ">>> "
   "プロンプト文字列、もしくは文字列を返す関数。")
 
+(defvar-local -input-complete-p-function- nil
+  "入力が完了しているかどうかを判断する関数。")
+
 
 
 ;;;; Utilities
@@ -194,14 +197,21 @@
         (goto-char (buffer-stream-point *standard-output*))))
     result))
 
+(defun process-input ()
+  (interactive)
+  (let* ((input (input-text))
+         (result (%process-input input)))
+    (when result
+      (print-prompt (point-max))
+      (history-update input))
+    result))
+
 (defun process-input-or-original ()
   (interactive)
-  (let ((input (input-text)))
-    (if (%process-input input)
-      (progn
-        (print-prompt (point-max))
-        (history-update input))
-      (call-original-command-interactively))))
+  (if (or (null -input-complete-p-function-)
+          (funcall -input-complete-p-function-))
+    (process-input)
+    (call-original-command-interactively)))
 
 
 
@@ -340,6 +350,7 @@
   (macrolet ((bind (key command)
                `(define-key *terminal-mode-keymap* ,key ',command)))
     (bind #\RET process-input-or-original)
+    (bind #\LFD process-input)
     (bind #\C-p original-or-history-previous-input)
     (bind #\C-n original-or-history-next-input)
     (bind #\C-l clear-terminal)
